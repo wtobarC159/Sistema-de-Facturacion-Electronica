@@ -49,7 +49,7 @@ namespace Sistema_de_Facturacion_Electronica.Controllers
                         {
                             Email = UsuarioRegistro.Email,
                             Username = UsuarioRegistro.UserName,
-                            Token = _token.GenerarToken(UsuarioRegistro, "USER")
+                            Token = _token.GenerarToken(UsuarioRegistro, "User")
                         });
                     }
                     else
@@ -73,19 +73,20 @@ namespace Sistema_de_Facturacion_Electronica.Controllers
         {
             if (!ModelState.IsValid) 
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             var Usuario = await _userManager.Users.FirstOrDefaultAsync(m => m.UserName == NodoLogin.Username.ToLower());
+            if(Usuario == null) return NotFound("Este Usuario no se encuentra registrado");
             var LoginUsuario = await _signManager.CheckPasswordSignInAsync(Usuario,NodoLogin.Contraseña,false);
             if (LoginUsuario.Succeeded)
             {
                 var Rol = (await _userManager.GetRolesAsync(Usuario)).FirstOrDefault();
                 return Ok(new UsuarioAutenticado
                 {
-                    Email = Usuario.Email,
-                    Username = Usuario.UserName,
-                    Token = _token.GenerarToken(Usuario, Rol),
+                    Email = Usuario.Email!,
+                    Username = Usuario.UserName!,
+                    Token = _token.GenerarToken(Usuario, Rol!),
                 });
             }
             else 

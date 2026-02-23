@@ -32,7 +32,7 @@ namespace Sistema_de_Facturacion_Electronica.Servicios
             {
                 Subject = new ClaimsIdentity(Claims),
                 Issuer = _configuration["Jwt:Emisor"],
-                Audience = _configuration["wt:Receptor"],
+                Audience = _configuration["Jwt:Receptor"],
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = CredencialesFirma,               
             };
