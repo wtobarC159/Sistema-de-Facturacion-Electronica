@@ -7,7 +7,15 @@ namespace Sistema_de_Facturacion_Electronica.Mapas
     {
         public static ItemDTO ToItemDTO(this Item NodoItem) 
         {
-            return new ItemDTO();
+            return new ItemDTO 
+            {
+                Id = NodoItem.Id,
+                NombreProducto = NodoItem.NombreProducto,
+                CantidadProducto = NodoItem.CantidadProducto,
+                PrecioUnitario = NodoItem.PrecioUnitario,
+                Subtotal = NodoItem.Subtotal,
+                Total = NodoItem.Total,
+            };
         }
     }
 }

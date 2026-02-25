@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sistema_de_Facturacion_Electronica.Modelos
 {
@@ -7,6 +6,7 @@ namespace Sistema_de_Facturacion_Electronica.Modelos
     public class Item
     {
         public int Id { get; set; }
+        public string NombreProducto { get; set; } = string.Empty;
         public int CantidadProducto { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public Decimal PrecioUnitario { get; set; }

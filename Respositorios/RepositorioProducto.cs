@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore;
 using Sistema_de_Facturacion_Electronica.Data;
 using Sistema_de_Facturacion_Electronica.Dtos.Producto;
 using Sistema_de_Facturacion_Electronica.Helpers;
@@ -85,7 +82,7 @@ namespace Sistema_de_Facturacion_Electronica.Respositorios
         public async Task EliminarImpuesto(int ProductoId)
         {
             var ProductoRel = await _contexto.Productos.Include(m=>m.ImpAplicables).FirstOrDefaultAsync(p=>p.Id==ProductoId);
-            ProductoRel.ImpAplicables.Clear();
+            ProductoRel?.ImpAplicables.Clear();
             await _contexto.SaveChangesAsync();
         }
 
@@ -108,17 +105,17 @@ namespace Sistema_de_Facturacion_Electronica.Respositorios
                 if (NodoProducto.ImpuestosPRD.ToLower().Contains("iva"))
                 {
                     var ImpuestoRel = await _contexto.Impuestos.Include(m=>m.Productos).FirstOrDefaultAsync(p=>p.TipoImpuesto == "IVA");
-                    ProductoRel.ImpAplicables.Add(ImpuestoRel);
+                    ProductoRel?.ImpAplicables.Add(ImpuestoRel!);
                 }
                 if (NodoProducto.ImpuestosPRD.ToLower().Contains("ir"))
                 {
                     var ImpuestoRel = await _contexto.Impuestos.Include(m => m.Productos).FirstOrDefaultAsync(p => p.TipoImpuesto == "IR");
-                    ProductoRel.ImpAplicables.Add(ImpuestoRel);
+                    ProductoRel?.ImpAplicables.Add(ImpuestoRel!);
                 }
                 if (NodoProducto.ImpuestosPRD.ToLower().Contains("ice"))
                 {
                     var ImpuestoRel = await _contexto.Impuestos.Include(m => m.Productos).FirstOrDefaultAsync(p => p.TipoImpuesto == "ICE");
-                    ProductoRel.ImpAplicables.Add(ImpuestoRel);
+                    ProductoRel?.ImpAplicables.Add(ImpuestoRel!);
                 }
                 await _contexto.SaveChangesAsync();
             }

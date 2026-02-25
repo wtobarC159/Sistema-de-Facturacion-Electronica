@@ -1,11 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sistema_de_Facturacion_Electronica.Data;
-using Sistema_de_Facturacion_Electronica.Dtos.Pago;
 using Sistema_de_Facturacion_Electronica.Helpers;
 using Sistema_de_Facturacion_Electronica.Interfaces;
 using Sistema_de_Facturacion_Electronica.Modelos;
-using System;
-using System.Linq;
 
 namespace Sistema_de_Facturacion_Electronica.Respositorios
 {
@@ -16,33 +13,6 @@ namespace Sistema_de_Facturacion_Electronica.Respositorios
         public RepositorioPago(Contexto contexto) 
         {
             _contexto = contexto;
-        }
-
-        public async Task<Pago?> ActualizarPago(int PagoId, ActualizarPago NodoPago)
-        {
-            var DataPago = await _contexto.Pagos.FirstOrDefaultAsync(m=>m.Id==PagoId);
-            if(DataPago == null) return null;
-
-            DataPago.FechaPago = NodoPago.FechaPago;
-            DataPago.MetodoPago = NodoPago.MetodoPago;
-            DataPago.EstadoPago = NodoPago.EstadoPago;
-            DataPago.FacturaId = NodoPago.FacturaId;
-
-            await _contexto.SaveChangesAsync();
-            return DataPago;
-        }
-
-        public async Task<Pago?> ActualizarPagoParcialPA(int PagoId, ActualizarPagoParcialDTO NodoPago)
-        {
-            /* var DataPago = await _contexto.Pagos.FirstOrDefaultAsync(m => m.Id == PagoId);
-             if (DataPago == null) return null;
-
-             if (!string.IsNullOrWhiteSpace(NodoPago.FechaPago.ToString())) 
-             {
-                 DataPago.FechaPago = NodoPago.FechaPago;
-             }*/
-
-            return null;
         }
 
         public async Task<Pago?> EliminarPago(int PagoId)

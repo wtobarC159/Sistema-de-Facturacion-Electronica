@@ -57,20 +57,6 @@ namespace Sistema_de_Facturacion_Electronica.Controllers
         }
 
         [Authorize]
-        [HttpPut("{PagoId:int}")]
-        public async Task<IActionResult> PutPago([FromRoute]int PagoId, [FromBody] ActualizarPago actualizarDto)
-        {
-            if (!ModelState.IsValid) 
-            {
-                return BadRequest(ModelState);
-            }
-            var PagoModelo = await _pago.ActualizarPago(PagoId,actualizarDto);
-            if (PagoModelo == null) return NotFound($"El producto con el id:{PagoId} no se encuentra registrado en el sistema");
-
-            return Ok(PagoModelo.ToPagoDTO());
-        }
-
-        [Authorize]
         [HttpDelete("{PagoId:int}")]
         public async Task<IActionResult> DeletePago([FromRoute] int PagoId)
         {

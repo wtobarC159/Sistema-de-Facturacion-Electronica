@@ -1,6 +1,6 @@
 ﻿namespace Sistema_de_Facturacion_Electronica.Servicios
 {
-    public class TransformacionXML
+    public class ExportacionXML
     {
     }
 }
