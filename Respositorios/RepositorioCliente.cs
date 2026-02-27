@@ -57,9 +57,6 @@ namespace Sistema_de_Facturacion_Electronica.Respositorios
             if (!string.IsNullOrWhiteSpace(NodoCliente.TipoContribuyente))
                 DataCliente.TipoContribuyente = NodoCliente.TipoContribuyente;
 
-            /*if (dto.Precio.HasValue)
-                cliente.Precio = dto.Precio.Value;*/
-
             await _contexto.SaveChangesAsync();
             return DataCliente;
         }
@@ -95,6 +92,13 @@ namespace Sistema_de_Facturacion_Electronica.Respositorios
                 return null;
             }
 
+            return DataCliente;
+        }
+
+        public async Task<Cliente?> ObtenerClienteNombre(string Nombre)
+        {
+            var DataCliente = await _contexto.Clientes.FirstOrDefaultAsync(m => m.Nombres.ToLower() == Nombre.ToLower());
+            if (DataCliente == null) return null;
             return DataCliente;
         }
 

@@ -31,5 +31,17 @@ namespace Sistema_de_Facturacion_Electronica.Mapas
                 Pagos = NodoFactura.Pagos.Select(m => m.ToPagoDTO()).ToList(),
             };
         }
+
+        public static Factura ToFactura(this CrearFacturaDTO NodoFactura, string IdUsuario, int IdCliente) 
+        {
+            return new Factura 
+            {
+                NombreCliente = NodoFactura.NombreCliente,
+                Descuento = NodoFactura.Descuento,
+                idInfoTRB = NodoFactura.idInfoTRB,
+                idUsuario = IdUsuario,
+                ClienteId = IdCliente,
+            };
+        }
     }
 }

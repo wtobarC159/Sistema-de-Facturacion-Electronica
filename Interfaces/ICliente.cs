@@ -7,6 +7,7 @@ namespace Sistema_de_Facturacion_Electronica.Interfaces
     {
         Task<List<Cliente>> ObtenerClientes();
         Task <Cliente?> ObtenerClienteId(int ClienteId);
+        Task<Cliente?> ObtenerClienteNombre(string Nombre);
         Task<Cliente?> CrearCliente(Cliente NodoCliente);
         Task<Cliente?> ActualizarCliente(int ClienteId, ActualizarClienteDTO NodoCliente);
         Task<Cliente?> ActualizarParcialcl(int ClienteId, ActualizarParcialDTOCL NodoCliente);

@@ -17,5 +17,15 @@ namespace Sistema_de_Facturacion_Electronica.Mapas
                 Total = NodoItem.Total,
             };
         }
+
+        public static Item ToItem(this CrearItemDTO NodoItem) 
+        {
+            return new Item 
+            {
+                idProducto = NodoItem.IdProducto,
+                CantidadProducto = NodoItem.CantidadProducto,
+                idFactura = NodoItem.IdFactura,
+            };
+        }
     }
 }
