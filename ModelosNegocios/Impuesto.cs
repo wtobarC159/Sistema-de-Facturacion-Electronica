@@ -9,7 +9,7 @@ namespace Sistema_de_Facturacion_Electronica.Modelos
         public int Id { get; set; }
         public string TipoImpuesto { get; set; } = string.Empty;
         [Column(TypeName = "decimal(18,2)")]
-        public Decimal Porcentaje { get; set; }
+        public decimal Porcentaje { get; set; }
         public string Vigencia { get; set; }= string.Empty;
 
         public List<Producto> Productos { get; set; } = new List<Producto>();

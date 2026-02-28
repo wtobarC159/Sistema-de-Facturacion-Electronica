@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Sistema_de_Facturacion_Electronica.Dtos.Factura;
 using Sistema_de_Facturacion_Electronica.Dtos.Item;
@@ -15,20 +16,23 @@ namespace Sistema_de_Facturacion_Electronica.Controllers
     public class ControladorFactura : ControllerBase
     {
         private readonly IFactura _factura;
-        private readonly IExportacionXML _xml;
-        private readonly IValidacionXSD _xsd;
+        //private readonly IExportacionXML _xml;
+        //private readonly IValidacionXSD _xsd;
         private readonly UserManager<Usuario> _userManager;
         private readonly ICliente _cliente;
+        private readonly ICalculoFactura _calculoFactura;
 
-        public ControladorFactura(IFactura factura,IExportacionXML xml,IValidacionXSD xsd,UserManager<Usuario> userManager,ICliente cliente) 
+        public ControladorFactura(IFactura factura,/*IExportacionXML xml,IValidacionXSD xsd,*/UserManager<Usuario> userManager,ICliente cliente,ICalculoFactura calculoFactura) 
         {
             _factura = factura;
-            _xml = xml;
-            _xsd = xsd;
+            /*_xml = xml;
+            _xsd = xsd;*/
             _userManager = userManager;
             _cliente = cliente;
+            _calculoFactura = calculoFactura;
         }
 
+        [Authorize]
         [HttpGet("obtenerfactura/{IdFactura:int}")]
         public async Task<IActionResult> ObtenerFacturaID([FromRoute] int IdFactura) 
         {
@@ -37,6 +41,7 @@ namespace Sistema_de_Facturacion_Electronica.Controllers
             return Ok(ModeloFactura.ToFacturaDTO());
         }
 
+        [Authorize]
         [HttpGet("obtenerfacturas")]
         public async Task<IActionResult> ObtenerFacturas([FromQuery] QueryFactura NodoQuery) 
         {
@@ -44,8 +49,9 @@ namespace Sistema_de_Facturacion_Electronica.Controllers
             var ModeloFactura = await _factura.ObtenerFacturas(NodoQuery);
             var ModeloFacturaDTO = ModeloFactura.Select(m => m.ToFacturaDTO()).ToList();
             return Ok(ModeloFacturaDTO);
-        } 
+        }
 
+        [Authorize]
         [HttpPost("registrarfactura")]
         public async Task<IActionResult> RegistrarFactura([FromBody] CrearFacturaDTO NodoFactura)
         {
@@ -65,14 +71,25 @@ namespace Sistema_de_Facturacion_Electronica.Controllers
             return CreatedAtAction(nameof(ObtenerFacturaID), new {IdFactura = ModeloFactura.Id},ModeloFactura.ToFacturaDTO());
         }
 
+        [Authorize]
         [HttpPost("generaritem")]
         public async Task<IActionResult> GenerarItem([FromBody] CrearItemDTO NodoItem) 
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var ItemModelo = await _factura.CrearItems(NodoItem.ToItem());
             if (ItemModelo == null) return StatusCode(500,"Error Interno del Servidor");
-            //INVOCAR SERVICIOS DE CALCULO DE FACTURA O REALIZAR AQUELLO EN OTRO ENDPOINT
             return Ok(ItemModelo);
         }
+
+        [Authorize]
+        [HttpPost("validacion")]
+        public async Task<IActionResult> ValidarFactura([FromBody] int IdFactura) 
+        {
+           var ModeloFactura = await _factura.ObtenerFacturaId(IdFactura);
+            if (ModeloFactura == null) return NotFound($"La Factura con el id {IdFactura} no se encuntra registrado");
+            var ModeloFacturaPLMR = await  _calculoFactura.Facturacion(ModeloFactura);
+            if (ModeloFacturaPLMR == null) return StatusCode(500,"Error Intenro del servidor");
+            return Ok(ModeloFacturaPLMR.ToFacturaDTO());
+        }       
     }
 }

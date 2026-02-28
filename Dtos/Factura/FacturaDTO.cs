@@ -11,10 +11,10 @@ namespace Sistema_de_Facturacion_Electronica.Dtos.Factura
         public DateTime FechaAutorizacion { get; set; }
         public string NumeroAutorizacion { get; set; } = string.Empty;
         public string NombreCliente { get; set; } = string.Empty;
-        public Decimal Subtotal { get; set; }
-        public Decimal TotalIPT { get; set; }
-        public Decimal? Descuento { get; set; }
-        public Decimal TotalFinal { get; set; }
+        public decimal Subtotal { get; set; }
+        public decimal TotalIPT { get; set; }
+        public decimal? Descuento { get; set; }
+        public decimal TotalFinal { get; set; }
         public string EstadoValidacion { get; set; } = string.Empty;
         public string? Observaciones { get; set; }
         public string EstadoDePago { get; set; } = string.Empty;

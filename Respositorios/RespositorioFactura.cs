@@ -16,7 +16,7 @@ namespace Sistema_de_Facturacion_Electronica.Respositorios
 
         public async Task<Factura?> ActualizarFacturas(int IdFactura, Factura NodoFactura)
         {
-            var DataFactura = await _contexto.Facturas.FirstOrDefaultAsync(m => m.Id == IdFactura);
+            var DataFactura = await _contexto.Facturas.Include(p => p.Items).FirstOrDefaultAsync(m => m.Id == IdFactura);
 
             DataFactura!.FechaAutorizacion = NodoFactura.FechaAutorizacion;
             DataFactura!.NumeroAutorizacion = NodoFactura.NumeroAutorizacion;
@@ -24,8 +24,8 @@ namespace Sistema_de_Facturacion_Electronica.Respositorios
             DataFactura!.TotalIPT = NodoFactura.TotalIPT;
             DataFactura!.TotalFinal = NodoFactura.TotalFinal;
             DataFactura!.EstadoValidacion = NodoFactura.EstadoValidacion;
+            DataFactura!.EstadoDePago = NodoFactura.EstadoDePago;
             DataFactura!.Observaciones = NodoFactura.Observaciones;
-
             await _contexto.SaveChangesAsync();
             return DataFactura;
         }
@@ -48,12 +48,11 @@ namespace Sistema_de_Facturacion_Electronica.Respositorios
             NodoItem.PrecioUnitario = DataProducto.Precio;
             NodoItem.Subtotal = NodoItem.CantidadProducto * DataProducto.Precio;
             var ListaImpuesto = DataProducto.ImpAplicables;
-            Decimal TotalImpuesto = 0;
             foreach(var e in ListaImpuesto) 
             {
-                TotalImpuesto += NodoItem.Subtotal * (e.Porcentaje/100);
+                NodoItem.TotalImpuesto += NodoItem.Subtotal * (e.Porcentaje/100);
             }
-            NodoItem.Total = NodoItem.Subtotal + TotalImpuesto;
+            NodoItem.Total = NodoItem.Subtotal + NodoItem.TotalImpuesto;
             await _contexto.Items.AddAsync(NodoItem);
             await _contexto.SaveChangesAsync();
             return NodoItem;

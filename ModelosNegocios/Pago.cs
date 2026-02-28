@@ -8,7 +8,7 @@ namespace Sistema_de_Facturacion_Electronica.Modelos
     {
         public int Id { get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        public Decimal Monto { get; set; }
+        public decimal Monto { get; set; }
         public DateOnly FechaPago { get; set; }
         public string MetodoPago { get; set; } = string.Empty;
         public string EstadoPago { get; set;} = string.Empty;

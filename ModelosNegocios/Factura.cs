@@ -13,13 +13,13 @@ namespace Sistema_de_Facturacion_Electronica.Modelos
         public string NombreCliente { get; set; } = string.Empty;
         public List<Item> Items { get; set; } = new List<Item>();
         [Column(TypeName ="decimal(18,2)")]
-        public Decimal Subtotal { get; set; }
+        public decimal Subtotal { get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        public Decimal TotalIPT { get; set; }
+        public decimal TotalIPT { get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        public Decimal? Descuento { get; set; }
+        public decimal? Descuento { get; set; } 
         [Column(TypeName = "decimal(18,2)")]
-        public Decimal TotalFinal { get; set; }
+        public decimal TotalFinal { get; set; }
         public string EstadoValidacion { get; set; } = string.Empty;
         public string? Observaciones { get; set; }
         public string EstadoDePago { get; set; } = string.Empty;

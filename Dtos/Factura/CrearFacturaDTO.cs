@@ -9,7 +9,7 @@ namespace Sistema_de_Facturacion_Electronica.Dtos.Factura
         [MinLength(10,ErrorMessage ="El Nombre de Cliente debe tener minimo 10 caracteres")]
         public string NombreCliente { get; set; } = string.Empty;
         [Range(0,100)]
-        public Decimal? Descuento { get; set; }
+        public decimal? Descuento { get; set; }
         [Required]
         public int idInfoTRB { get; set; }
     }

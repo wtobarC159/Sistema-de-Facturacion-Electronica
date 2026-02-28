@@ -6,7 +6,7 @@ namespace Sistema_de_Facturacion_Electronica.Dtos
     {
         [Required]
         [Range(5,10000)]
-        public Decimal Monto { get; set; }
+        public decimal Monto { get; set; }
         [Required]
         public DateOnly FechaPago { get; set; }
         [Required]

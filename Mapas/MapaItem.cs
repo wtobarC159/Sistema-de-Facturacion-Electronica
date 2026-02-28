@@ -14,6 +14,7 @@ namespace Sistema_de_Facturacion_Electronica.Mapas
                 CantidadProducto = NodoItem.CantidadProducto,
                 PrecioUnitario = NodoItem.PrecioUnitario,
                 Subtotal = NodoItem.Subtotal,
+                TotalImpuesto = NodoItem.TotalImpuesto,
                 Total = NodoItem.Total,
             };
         }

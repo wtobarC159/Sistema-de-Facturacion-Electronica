@@ -9,11 +9,13 @@ namespace Sistema_de_Facturacion_Electronica.Modelos
         public string NombreProducto { get; set; } = string.Empty;
         public int CantidadProducto { get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        public Decimal PrecioUnitario { get; set; }
+        public decimal PrecioUnitario { get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        public Decimal Subtotal { get; set; }
+        public decimal Subtotal { get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        public Decimal Total { get; set; }
+        public decimal TotalImpuesto { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Total { get; set; }
 
         public int idProducto { get; set; }
         public Producto? Producto { get; set; }

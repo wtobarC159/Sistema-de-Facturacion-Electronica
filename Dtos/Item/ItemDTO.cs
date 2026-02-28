@@ -6,8 +6,9 @@ namespace Sistema_de_Facturacion_Electronica.Dtos.Item
         public int Id { get; set; }
         public string NombreProducto { get; set; } = string.Empty;
         public int CantidadProducto { get; set; }
-        public Decimal PrecioUnitario { get; set; }
-        public Decimal Subtotal { get; set; }
-        public Decimal Total { get; set; }
+        public decimal PrecioUnitario { get; set; }
+        public decimal Subtotal { get; set; }
+        public decimal TotalImpuesto { get; set; }
+        public decimal Total { get; set; }
     }
 }
