@@ -18,13 +18,12 @@ namespace Sistema_de_Facturacion_Electronica.Respositorios
         {
             var DataFactura = await _contexto.Facturas.Include(p => p.Items).FirstOrDefaultAsync(m => m.Id == IdFactura);
 
-            DataFactura!.FechaAutorizacion = NodoFactura.FechaAutorizacion;
+            /*DataFactura!.FechaAutorizacion = NodoFactura.FechaAutorizacion;*/
             DataFactura!.NumeroAutorizacion = NodoFactura.NumeroAutorizacion;
             DataFactura!.Subtotal = NodoFactura.Subtotal;
             DataFactura!.TotalIPT = NodoFactura.TotalIPT;
             DataFactura!.TotalFinal = NodoFactura.TotalFinal;
             DataFactura!.EstadoValidacion = NodoFactura.EstadoValidacion;
-            DataFactura!.EstadoDePago = NodoFactura.EstadoDePago;
             DataFactura!.Observaciones = NodoFactura.Observaciones;
             await _contexto.SaveChangesAsync();
             return DataFactura;

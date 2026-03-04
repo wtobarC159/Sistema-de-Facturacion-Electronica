@@ -19,9 +19,8 @@ namespace Sistema_de_Facturacion_Electronica.Servicios
                 NodoFactura.Subtotal += item.Subtotal;
                 NodoFactura.TotalIPT += item.TotalImpuesto;
             }
-            NodoFactura.TotalFinal = NodoFactura.Subtotal + NodoFactura.TotalIPT - (NodoFactura.Descuento ?? 0);
+            NodoFactura.TotalFinal = NodoFactura.Subtotal + NodoFactura.TotalIPT - NodoFactura.Descuento;
             NodoFactura.EstadoValidacion = "Sin Validar";
-            NodoFactura.EstadoDePago = "Pendiente";
             var NodoFactura2 = await _factura.ActualizarFacturas(NodoFactura.Id,NodoFactura);
             return NodoFactura2;
         }

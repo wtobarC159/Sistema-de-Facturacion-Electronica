@@ -13,8 +13,8 @@ namespace Sistema_de_Facturacion_Electronica.Mapas
             return new FacturaDTO 
             {
                 Id = NodoFactura.Id,
-                FechaEmision = NodoFactura.FechaEmision,
-                FechaAutorizacion = NodoFactura.FechaAutorizacion,
+               /* FechaEmision = NodoFactura.FechaEmision,
+                FechaAutorizacion = NodoFactura.FechaAutorizacion,*/
                 NumeroAutorizacion = NodoFactura.NumeroAutorizacion,
                 NombreCliente = NodoFactura.NombreCliente,
                 Subtotal = NodoFactura.Subtotal,
@@ -23,10 +23,9 @@ namespace Sistema_de_Facturacion_Electronica.Mapas
                 TotalFinal = NodoFactura.TotalFinal,
                 EstadoValidacion = NodoFactura.EstadoValidacion,
                 Observaciones = NodoFactura.Observaciones,
-                EstadoDePago = NodoFactura.EstadoDePago,
-                ClienteId = NodoFactura.ClienteId,
-                idInfoTRB = NodoFactura.idInfoTRB,
-                idUsuario = NodoFactura.idUsuario,
+                ClienteId = NodoFactura.IdCliente,
+                idInfoTRB = NodoFactura.IdInfo,
+                idUsuario = NodoFactura.IdUsuario,
                 Items = NodoFactura.Items.Select(m => m.ToItemDTO()).ToList(),
                 Pagos = NodoFactura.Pagos.Select(m => m.ToPagoDTO()).ToList(),
             };
@@ -38,9 +37,9 @@ namespace Sistema_de_Facturacion_Electronica.Mapas
             {
                 NombreCliente = NodoFactura.NombreCliente,
                 Descuento = NodoFactura.Descuento,
-                idInfoTRB = NodoFactura.idInfoTRB,
-                idUsuario = IdUsuario,
-                ClienteId = IdCliente,
+                IdInfo = NodoFactura.idInfoTRB,
+                IdUsuario = IdUsuario,
+                IdCliente = IdCliente,
             };
         }
     }

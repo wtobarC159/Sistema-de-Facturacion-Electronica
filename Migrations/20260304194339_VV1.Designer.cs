@@ -12,8 +12,8 @@ using Sistema_de_Facturacion_Electronica.Data;
 namespace Sistema_de_Facturacion_Electronica.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20260118191340_V1")]
-    partial class V1
+    [Migration("20260304194339_VV1")]
+    partial class VV1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -228,9 +228,6 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
                     b.Property<decimal?>("Descuento")
                         .HasColumnType("decimal(18,2)");
 
@@ -244,8 +241,15 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                     b.Property<DateTime>("FechaEmision")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("InfoTributariaId")
+                    b.Property<int>("IdCliente")
                         .HasColumnType("int");
+
+                    b.Property<int>("IdInfo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IdUsuario")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("NombreCliente")
                         .IsRequired()
@@ -267,23 +271,14 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                     b.Property<decimal>("TotalIPT")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("UsuarioId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("idInfoTRB")
-                        .HasColumnType("int");
-
-                    b.Property<string>("idUsuario")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("XmlFactura")
+                        .HasColumnType("xml");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClienteId");
+                    b.HasIndex("IdCliente");
 
-                    b.HasIndex("InfoTributariaId");
-
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("IdUsuario");
 
                     b.ToTable("Facturas");
                 });
@@ -295,6 +290,17 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Porcentaje")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("TipoImpuesto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Vigencia")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -324,6 +330,9 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("IdFactura")
+                        .HasColumnType("int");
+
                     b.Property<string>("NombreComercial")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -349,6 +358,9 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IdFactura")
+                        .IsUnique();
+
                     b.ToTable("InfoTributaria");
                 });
 
@@ -366,6 +378,10 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                     b.Property<int?>("FacturaId")
                         .HasColumnType("int");
 
+                    b.Property<string>("NombreProducto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("PrecioUnitario")
                         .HasColumnType("decimal(18,2)");
 
@@ -376,6 +392,9 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalImpuesto")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("idFactura")
@@ -408,8 +427,8 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                     b.Property<int>("FacturaId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("FechaPago")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("FechaPago")
+                        .HasColumnType("date");
 
                     b.Property<string>("MetodoPago")
                         .IsRequired()
@@ -418,9 +437,18 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                     b.Property<decimal>("Monto")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("UsuarioId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("idUsuario")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("FacturaId");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Pagos");
                 });
@@ -438,6 +466,10 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImpuestosPRD")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -522,6 +554,76 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Sistema_de_Facturacion_Electronica.ModelosAuditoria.AuditoriaFactura", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Accion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FacturaId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaAccion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UsuarioApp")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ValorAnterior")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ValorNuevo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AuditoriaFacturas");
+                });
+
+            modelBuilder.Entity("Sistema_de_Facturacion_Electronica.ModelosAuditoria.AuditoriaPago", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Accion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaAccion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PagoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsuarioApp")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ValorAnterior")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ValorNuevo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AuditoriaPagos");
+                });
+
             modelBuilder.Entity("ImpuestoProducto", b =>
                 {
                     b.HasOne("Sistema_de_Facturacion_Electronica.Modelos.Impuesto", null)
@@ -592,23 +694,30 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                 {
                     b.HasOne("Sistema_de_Facturacion_Electronica.Modelos.Cliente", "Cliente")
                         .WithMany("FacturaList")
-                        .HasForeignKey("ClienteId")
+                        .HasForeignKey("IdCliente")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Sistema_de_Facturacion_Electronica.Modelos.InfoTributaria", "InfoTributaria")
-                        .WithMany()
-                        .HasForeignKey("InfoTributariaId");
-
                     b.HasOne("Sistema_de_Facturacion_Electronica.Modelos.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId");
+                        .WithMany("facturas")
+                        .HasForeignKey("IdUsuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Cliente");
 
-                    b.Navigation("InfoTributaria");
-
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Sistema_de_Facturacion_Electronica.Modelos.InfoTributaria", b =>
+                {
+                    b.HasOne("Sistema_de_Facturacion_Electronica.Modelos.Factura", "Factura")
+                        .WithOne("InfoTributaria")
+                        .HasForeignKey("Sistema_de_Facturacion_Electronica.Modelos.InfoTributaria", "IdFactura")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Factura");
                 });
 
             modelBuilder.Entity("Sistema_de_Facturacion_Electronica.Modelos.Item", b =>
@@ -634,7 +743,13 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Sistema_de_Facturacion_Electronica.Modelos.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId");
+
                     b.Navigation("Factura");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Sistema_de_Facturacion_Electronica.Modelos.Cliente", b =>
@@ -644,6 +759,8 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
 
             modelBuilder.Entity("Sistema_de_Facturacion_Electronica.Modelos.Factura", b =>
                 {
+                    b.Navigation("InfoTributaria");
+
                     b.Navigation("Items");
 
                     b.Navigation("Pagos");
@@ -652,6 +769,11 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
             modelBuilder.Entity("Sistema_de_Facturacion_Electronica.Modelos.Producto", b =>
                 {
                     b.Navigation("ItemProducto");
+                });
+
+            modelBuilder.Entity("Sistema_de_Facturacion_Electronica.Modelos.Usuario", b =>
+                {
+                    b.Navigation("facturas");
                 });
 #pragma warning restore 612, 618
         }

@@ -16,5 +16,7 @@ namespace Sistema_de_Facturacion_Electronica.Modelos
         public string PuntoEmision { get; set; } = string.Empty;
         public string NumeroSec { get; set; } = string.Empty;
         public string DirMatriz { get; set; } = string.Empty;
+
+        public Factura? Factura { get; set; }
     }
 }

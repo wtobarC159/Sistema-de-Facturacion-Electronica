@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Sistema_de_Facturacion_Electronica.Modelos;
 using Sistema_de_Facturacion_Electronica.ModelosAuditoria;
 
@@ -20,9 +22,55 @@ namespace Sistema_de_Facturacion_Electronica.Data
         public DbSet<AuditoriaPago> AuditoriaPagos { get; set; }
         public DbSet<AuditoriaFactura> AuditoriaFacturas { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Factura>()
+                .HasOne(m => m.Cliente)
+                .WithMany(n => n.FacturaList)
+                .HasForeignKey(p => p.IdCliente);
+
+            modelBuilder.Entity<InfoTributaria>()
+                .HasOne(m => m.Factura )
+                .WithOne(n => n.InfoTributaria)
+                .HasForeignKey<Factura>(p => p.IdInfo);
+
+            modelBuilder.Entity<Factura>()
+                .HasOne(m => m.Usuario)
+                .WithMany(n => n.facturas)
+                .HasForeignKey(p => p.IdUsuario);
+
+            modelBuilder.Entity<Factura>()
+                .Property(m => m.XmlFactura)
+                .HasColumnType("xml");
+
+            modelBuilder.Entity<Factura>(entity =>
+            {
+                  entity.HasKey(n => n.Id);
+                  entity.Property(f => f.Id).UseIdentityColumn();
+            });
+
+            modelBuilder.Entity<Factura>().InsertUsingStoredProcedure("sp_InsertFactura", sp =>
+            {
+                 /* sp.HasParameter(f=>f.FechaEmision);
+                  sp.HasParameter(f=>f.FechaAutorizacion);*/
+                  sp.HasParameter(f=>f.NumeroAutorizacion);
+                  sp.HasParameter(f=>f.NombreCliente);
+                  sp.HasParameter(f=>f.Subtotal);
+                  sp.HasParameter(f=>f.TotalIPT);
+                  sp.HasParameter(f=>f.Descuento);
+                  sp.HasParameter(f=>f.TotalFinal);
+                  sp.HasParameter(f=>f.EstadoValidacion);
+                  sp.HasParameter(f=>f.Observaciones);
+                  sp.HasParameter(f => f.XmlFactura);
+                  sp.HasParameter(f=>f.IdCliente);
+                  sp.HasParameter(f=>f.IdInfo);
+                  sp.HasParameter(f=>f.IdUsuario);
+
+                  sp.HasResultColumn(f => f.Id);
+             });
+
             List<IdentityRole> Roles = new List<IdentityRole>()
             {
                 new IdentityRole

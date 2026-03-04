@@ -104,7 +104,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
-app.UseMiddleware<RegistroSesion>();
+//app.UseMiddleware<RegistroSesion>();
 app.UseAuthorization();
 app.MapControllers();
 

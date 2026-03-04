@@ -5,7 +5,7 @@
 namespace Sistema_de_Facturacion_Electronica.Migrations
 {
     /// <inheritdoc />
-    public partial class V4 : Migration
+    public partial class VV2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
