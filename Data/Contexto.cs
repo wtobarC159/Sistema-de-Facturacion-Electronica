@@ -31,11 +31,6 @@ namespace Sistema_de_Facturacion_Electronica.Data
                 .WithMany(n => n.FacturaList)
                 .HasForeignKey(p => p.IdCliente);
 
-            modelBuilder.Entity<InfoTributaria>()
-                .HasOne(m => m.Factura )
-                .WithOne(n => n.InfoTributaria)
-                .HasForeignKey<Factura>(p => p.IdInfo);
-
             modelBuilder.Entity<Factura>()
                 .HasOne(m => m.Usuario)
                 .WithMany(n => n.facturas)
@@ -51,10 +46,10 @@ namespace Sistema_de_Facturacion_Electronica.Data
                   entity.Property(f => f.Id).UseIdentityColumn();
             });
 
-            modelBuilder.Entity<Factura>().InsertUsingStoredProcedure("sp_InsertFactura", sp =>
+         /* modelBuilder.Entity<Factura>().InsertUsingStoredProcedure("sp_InsertFactura", sp =>
             {
-                 /* sp.HasParameter(f=>f.FechaEmision);
-                  sp.HasParameter(f=>f.FechaAutorizacion);*/
+                  sp.HasParameter(f=>f.FechaEmision);
+                  sp.HasParameter(f=>f.FechaAutorizacion);
                   sp.HasParameter(f=>f.NumeroAutorizacion);
                   sp.HasParameter(f=>f.NombreCliente);
                   sp.HasParameter(f=>f.Subtotal);
@@ -69,7 +64,7 @@ namespace Sistema_de_Facturacion_Electronica.Data
                   sp.HasParameter(f=>f.IdUsuario);
 
                   sp.HasResultColumn(f => f.Id);
-             });
+             });*/
 
             List<IdentityRole> Roles = new List<IdentityRole>()
             {

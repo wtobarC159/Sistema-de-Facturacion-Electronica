@@ -40,7 +40,8 @@ namespace Sistema_de_Facturacion_Electronica.Respositorios
 
         public async Task<Item?> CrearItems(Item NodoItem)
         {
-            var DataProducto = await _contexto.Productos.Include(p => p.ImpAplicables).FirstOrDefaultAsync(m => m.Id == NodoItem.idProducto);
+            var DataProducto = await _contexto.Productos.Include(p => p.ImpAplicables).FirstOrDefaultAsync(m => m.Id == NodoItem.ProductoId);
+            var DataFactura = await _contexto.Facturas.Include(p => p.Items).FirstOrDefaultAsync(m => m.Id == NodoItem.FacturaId);
             if(DataProducto == null) return null;
 
             NodoItem.NombreProducto = DataProducto.Nombre;
@@ -53,6 +54,7 @@ namespace Sistema_de_Facturacion_Electronica.Respositorios
             }
             NodoItem.Total = NodoItem.Subtotal + NodoItem.TotalImpuesto;
             await _contexto.Items.AddAsync(NodoItem);
+            DataFactura?.Items.Add(NodoItem);
             await _contexto.SaveChangesAsync();
             return NodoItem;
         }

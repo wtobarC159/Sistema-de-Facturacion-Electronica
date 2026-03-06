@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sistema_de_Facturacion_Electronica.Modelos
 {
@@ -11,7 +10,7 @@ namespace Sistema_de_Facturacion_Electronica.Modelos
         public string Nombre { get; set; } = string.Empty;
         public string Descripcion { get; set; } = string.Empty;
         [Column(TypeName = "decimal(18,2)")]
-        public decimal Precio { get; set; }
+        public double Precio { get; set; }
         public string UnidadMedida { get; set; } = string.Empty;
         public string ImpuestosPRD { get; set; } = string.Empty;
         public List<Impuesto> ImpAplicables { get; set; } = new List<Impuesto>();

@@ -8,8 +8,7 @@ namespace Sistema_de_Facturacion_Electronica.Dtos.Factura
         [MaxLength(100,ErrorMessage ="El Nombre de Cliente no debe Superar los 100 caracteres")]
         [MinLength(10,ErrorMessage ="El Nombre de Cliente debe tener minimo 10 caracteres")]
         public string NombreCliente { get; set; } = string.Empty;
-        [Range(0,100)]
-        public decimal Descuento { get; set; }
+        public double Descuento { get; set; }
         [Required]
         public int idInfoTRB { get; set; }
     }

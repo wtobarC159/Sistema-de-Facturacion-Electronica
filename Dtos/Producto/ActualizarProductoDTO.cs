@@ -18,7 +18,7 @@ namespace Sistema_de_Facturacion_Electronica.Dtos.Producto
         public string Descripcion { get; set; } = string.Empty;
         [Required]
         [Range(0.001, 100000)]
-        public decimal Precio { get; set; }
+        public double Precio { get; set; }
         public string UnidadMedida { get; set; } = string.Empty;
         [Required]
         [MaxLength(30, ErrorMessage = "Los nombres de impuestos no deben superar los 30 caracteres")]

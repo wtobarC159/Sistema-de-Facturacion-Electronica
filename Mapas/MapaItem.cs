@@ -23,9 +23,9 @@ namespace Sistema_de_Facturacion_Electronica.Mapas
         {
             return new Item 
             {
-                idProducto = NodoItem.IdProducto,
+                ProductoId = NodoItem.IdProducto,
                 CantidadProducto = NodoItem.CantidadProducto,
-                idFactura = NodoItem.IdFactura,
+                FacturaId = NodoItem.IdFactura,
             };
         }
     }

@@ -225,12 +225,18 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal?>("Descuento")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Descuento")
+                        .HasColumnType("float");
 
                     b.Property<string>("EstadoValidacion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaAutorizacion")
+                        .HasColumnType("Date");
+
+                    b.Property<DateTime>("FechaEmision")
+                        .HasColumnType("Date");
 
                     b.Property<int>("IdCliente")
                         .HasColumnType("int");
@@ -253,14 +259,14 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                     b.Property<string>("Observaciones")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Subtotal")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Subtotal")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("TotalFinal")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("TotalFinal")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("TotalIPT")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("TotalIPT")
+                        .HasColumnType("float");
 
                     b.Property<string>("XmlFactura")
                         .HasColumnType("xml");
@@ -268,9 +274,6 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IdCliente");
-
-                    b.HasIndex("IdInfo")
-                        .IsUnique();
 
                     b.HasIndex("IdUsuario");
 
@@ -363,33 +366,27 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                     b.Property<int>("CantidadProducto")
                         .HasColumnType("int");
 
-                    b.Property<int?>("FacturaId")
+                    b.Property<int>("FacturaId")
                         .HasColumnType("int");
 
                     b.Property<string>("NombreProducto")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("PrecioUnitario")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("PrecioUnitario")
+                        .HasColumnType("float");
 
-                    b.Property<int?>("ProductoId")
+                    b.Property<int>("ProductoId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Subtotal")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Subtotal")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Total")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("TotalImpuesto")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("idFactura")
-                        .HasColumnType("int");
-
-                    b.Property<int>("idProducto")
-                        .HasColumnType("int");
+                    b.Property<double>("TotalImpuesto")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -678,12 +675,6 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Sistema_de_Facturacion_Electronica.Modelos.InfoTributaria", "InfoTributaria")
-                        .WithOne("Factura")
-                        .HasForeignKey("Sistema_de_Facturacion_Electronica.Modelos.Factura", "IdInfo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Sistema_de_Facturacion_Electronica.Modelos.Usuario", "Usuario")
                         .WithMany("facturas")
                         .HasForeignKey("IdUsuario")
@@ -692,8 +683,6 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
 
                     b.Navigation("Cliente");
 
-                    b.Navigation("InfoTributaria");
-
                     b.Navigation("Usuario");
                 });
 
@@ -701,11 +690,15 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                 {
                     b.HasOne("Sistema_de_Facturacion_Electronica.Modelos.Factura", "Factura")
                         .WithMany("Items")
-                        .HasForeignKey("FacturaId");
+                        .HasForeignKey("FacturaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Sistema_de_Facturacion_Electronica.Modelos.Producto", "Producto")
                         .WithMany("ItemProducto")
-                        .HasForeignKey("ProductoId");
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Factura");
 
@@ -739,11 +732,6 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                     b.Navigation("Items");
 
                     b.Navigation("Pagos");
-                });
-
-            modelBuilder.Entity("Sistema_de_Facturacion_Electronica.Modelos.InfoTributaria", b =>
-                {
-                    b.Navigation("Factura");
                 });
 
             modelBuilder.Entity("Sistema_de_Facturacion_Electronica.Modelos.Producto", b =>

@@ -8,13 +8,13 @@ namespace Sistema_de_Facturacion_Electronica.Dtos.Factura
     {
         public int Id { get; set; }
         public DateTime FechaEmision { get; set; } = DateTime.Now;
-        public DateTime FechaAutorizacion { get; set; }
+        public DateTime FechaAutorizacion { get; set; } = DateTime.Now;
         public string NumeroAutorizacion { get; set; } = string.Empty;
         public string NombreCliente { get; set; } = string.Empty;
-        public decimal Subtotal { get; set; }
-        public decimal TotalIPT { get; set; }
-        public decimal? Descuento { get; set; }
-        public decimal TotalFinal { get; set; }
+        public double Subtotal { get; set; }
+        public double TotalIPT { get; set; }
+        public double? Descuento { get; set; }
+        public double TotalFinal { get; set; }
         public string EstadoValidacion { get; set; } = string.Empty;
         public string? Observaciones { get; set; }
         public string EstadoDePago { get; set; } = string.Empty;

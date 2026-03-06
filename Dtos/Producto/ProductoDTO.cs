@@ -9,7 +9,7 @@ namespace Sistema_de_Facturacion_Electronica.Dtos.Producto
         public string Codigo { get; set; } = string.Empty;
         public string Nombre { get; set; } = string.Empty;
         public string Descripcion { get; set; } = string.Empty;
-        public decimal Precio { get; set; }
+        public double Precio { get; set; }
         public string UnidadMedida { get; set; } = string.Empty;
         public string ImpuestosPRD { get; set; } = string.Empty;
     }

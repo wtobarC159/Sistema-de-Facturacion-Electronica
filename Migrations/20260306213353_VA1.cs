@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Sistema_de_Facturacion_Electronica.Migrations
 {
     /// <inheritdoc />
-    public partial class VV1 : Migration
+    public partial class VA1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -58,12 +58,12 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FacturaId = table.Column<int>(type: "int", nullable: false),
-                    Accion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UsuarioApp = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FechaAccion = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ValorAnterior = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ValorNuevo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    FacturaId = table.Column<int>(type: "int", nullable: true),
+                    Accion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UsuarioApp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FechaAccion = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ValorAnterior = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ValorNuevo = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -76,12 +76,12 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PagoId = table.Column<int>(type: "int", nullable: false),
-                    Accion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UsuarioApp = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FechaAccion = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ValorAnterior = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ValorNuevo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    PagoId = table.Column<int>(type: "int", nullable: true),
+                    Accion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UsuarioApp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FechaAccion = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ValorAnterior = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ValorNuevo = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -118,6 +118,28 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Impuestos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InfoTributaria",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Ambiente = table.Column<int>(type: "int", nullable: false),
+                    TipoEmision = table.Column<int>(type: "int", nullable: false),
+                    RazonSocial = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NombreComercial = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RUC = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClaveUnica = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CodTipoCompb = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PuntoEmision = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NumeroSec = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DirMatriz = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InfoTributaria", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -250,14 +272,14 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FechaEmision = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FechaAutorizacion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaEmision = table.Column<DateTime>(type: "Date", nullable: false),
+                    FechaAutorizacion = table.Column<DateTime>(type: "Date", nullable: false),
                     NumeroAutorizacion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NombreCliente = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Subtotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TotalIPT = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Descuento = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    TotalFinal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Subtotal = table.Column<double>(type: "float", nullable: false),
+                    TotalIPT = table.Column<double>(type: "float", nullable: false),
+                    Descuento = table.Column<double>(type: "float", nullable: false),
+                    TotalFinal = table.Column<double>(type: "float", nullable: false),
                     EstadoValidacion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Observaciones = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     XmlFactura = table.Column<string>(type: "xml", nullable: true),
@@ -307,35 +329,6 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InfoTributaria",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Ambiente = table.Column<int>(type: "int", nullable: false),
-                    TipoEmision = table.Column<int>(type: "int", nullable: false),
-                    RazonSocial = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NombreComercial = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RUC = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ClaveUnica = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CodTipoCompb = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PuntoEmision = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NumeroSec = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DirMatriz = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdFactura = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InfoTributaria", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_InfoTributaria_Facturas_IdFactura",
-                        column: x => x.IdFactura,
-                        principalTable: "Facturas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Items",
                 columns: table => new
                 {
@@ -343,14 +336,12 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NombreProducto = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CantidadProducto = table.Column<int>(type: "int", nullable: false),
-                    PrecioUnitario = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Subtotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TotalImpuesto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    idProducto = table.Column<int>(type: "int", nullable: false),
-                    ProductoId = table.Column<int>(type: "int", nullable: true),
-                    idFactura = table.Column<int>(type: "int", nullable: false),
-                    FacturaId = table.Column<int>(type: "int", nullable: true)
+                    PrecioUnitario = table.Column<double>(type: "float", nullable: false),
+                    Subtotal = table.Column<double>(type: "float", nullable: false),
+                    TotalImpuesto = table.Column<double>(type: "float", nullable: false),
+                    Total = table.Column<double>(type: "float", nullable: false),
+                    ProductoId = table.Column<int>(type: "int", nullable: false),
+                    FacturaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -359,12 +350,14 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                         name: "FK_Items_Facturas_FacturaId",
                         column: x => x.FacturaId,
                         principalTable: "Facturas",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Items_Productos_ProductoId",
                         column: x => x.ProductoId,
                         principalTable: "Productos",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -459,12 +452,6 @@ namespace Sistema_de_Facturacion_Electronica.Migrations
                 name: "IX_ImpuestoProducto_ProductosId",
                 table: "ImpuestoProducto",
                 column: "ProductosId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_InfoTributaria_IdFactura",
-                table: "InfoTributaria",
-                column: "IdFactura",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Items_FacturaId",

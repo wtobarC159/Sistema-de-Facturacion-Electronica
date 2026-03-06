@@ -78,7 +78,7 @@ namespace Sistema_de_Facturacion_Electronica.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var ItemModelo = await _factura.CrearItems(NodoItem.ToItem());
             if (ItemModelo == null) return StatusCode(500,"Error Interno del Servidor");
-            return Ok(ItemModelo);
+            return Ok(ItemModelo.ToItemDTO());
         }
 
         [Authorize]
