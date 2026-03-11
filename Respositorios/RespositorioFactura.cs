@@ -61,14 +61,14 @@ namespace Sistema_de_Facturacion_Electronica.Respositorios
 
         public async Task<Factura?> ObtenerFacturaId(int IdFactura)
         {
-            var DataFactura = await _contexto.Facturas.Include(p => p.Items).Include(r => r.Pagos).FirstOrDefaultAsync(m => m.Id == IdFactura);
+            var DataFactura = await _contexto.Facturas.Include(o => o.InfoTributaria).Include(p => p.Items).Include(r => r.Pagos).FirstOrDefaultAsync(m => m.Id == IdFactura);
             if(DataFactura == null) return null;
             return DataFactura;
         }
 
         public async Task<List<Factura>> ObtenerFacturas(QueryFactura NodoQuery)
         {
-            var DataFactura =  _contexto.Facturas.Include(p => p.Items).Include(r => r.Pagos).AsQueryable();
+            var DataFactura =  _contexto.Facturas.Include(o => o.InfoTributaria).Include(p => p.Items).Include(r => r.Pagos).AsQueryable();
             var PaginasPaso = (NodoQuery.NumeroPagina - 1) * NodoQuery.TamanoPagina;
             return await DataFactura.Skip(PaginasPaso).Take(NodoQuery.TamanoPagina).ToListAsync();
         }

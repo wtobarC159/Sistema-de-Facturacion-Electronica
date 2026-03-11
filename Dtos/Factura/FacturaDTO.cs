@@ -1,4 +1,5 @@
-﻿using Sistema_de_Facturacion_Electronica.Dtos.Item;
+﻿using Sistema_de_Facturacion_Electronica.Dtos.InfoTributDTO;
+using Sistema_de_Facturacion_Electronica.Dtos.Item;
 using Sistema_de_Facturacion_Electronica.Dtos.Pago;
 using Sistema_de_Facturacion_Electronica.Modelos;
 
@@ -22,6 +23,7 @@ namespace Sistema_de_Facturacion_Electronica.Dtos.Factura
         public int idInfoTRB { get; set; }
         public string idUsuario { get; set; } = string.Empty;
 
+        public InfoTributariaDTO InfoDTO{ get; set; }
         public List<ItemDTO> Items { get; set; }
         public List<PagoDTO> Pagos { get; set; }
     }

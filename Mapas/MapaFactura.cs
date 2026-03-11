@@ -10,11 +10,11 @@ namespace Sistema_de_Facturacion_Electronica.Mapas
     {
         public static FacturaDTO ToFacturaDTO(this Factura NodoFactura) 
         {
-            return new FacturaDTO 
+            return new FacturaDTO
             {
                 Id = NodoFactura.Id,
-               /* FechaEmision = NodoFactura.FechaEmision,
-                FechaAutorizacion = NodoFactura.FechaAutorizacion,*/
+                /* FechaEmision = NodoFactura.FechaEmision,
+                 FechaAutorizacion = NodoFactura.FechaAutorizacion,*/
                 NumeroAutorizacion = NodoFactura.NumeroAutorizacion,
                 NombreCliente = NodoFactura.NombreCliente,
                 Subtotal = NodoFactura.Subtotal,
@@ -26,6 +26,7 @@ namespace Sistema_de_Facturacion_Electronica.Mapas
                 ClienteId = NodoFactura.IdCliente,
                 idInfoTRB = NodoFactura.InfoTributariaId,
                 idUsuario = NodoFactura.IdUsuario,
+                InfoDTO = NodoFactura.InfoTributaria.ToInfoDto(),
                 Items = NodoFactura.Items.Select(m => m.ToItemDTO()).ToList(),
                 Pagos = NodoFactura.Pagos.Select(m => m.ToPagoDTO()).ToList(),
             };
