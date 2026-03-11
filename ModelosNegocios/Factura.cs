@@ -27,8 +27,8 @@ namespace Sistema_de_Facturacion_Electronica.Modelos
         public int IdCliente { get; set; }
         public Cliente? Cliente { get; set; }
 
-        public int IdInfo { get; set; }
-        //public InfoTributaria? InfoTributaria { get; set; }
+        public int InfoTributariaId { get; set; }
+        public InfoTributaria? InfoTributaria { get; set; }
 
         public string IdUsuario { get; set; } = string.Empty;
         public Usuario? Usuario { get; set; }

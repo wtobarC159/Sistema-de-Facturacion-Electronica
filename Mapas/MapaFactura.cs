@@ -24,7 +24,7 @@ namespace Sistema_de_Facturacion_Electronica.Mapas
                 EstadoValidacion = NodoFactura.EstadoValidacion,
                 Observaciones = NodoFactura.Observaciones,
                 ClienteId = NodoFactura.IdCliente,
-                idInfoTRB = NodoFactura.IdInfo,
+                idInfoTRB = NodoFactura.InfoTributariaId,
                 idUsuario = NodoFactura.IdUsuario,
                 Items = NodoFactura.Items.Select(m => m.ToItemDTO()).ToList(),
                 Pagos = NodoFactura.Pagos.Select(m => m.ToPagoDTO()).ToList(),
@@ -37,7 +37,7 @@ namespace Sistema_de_Facturacion_Electronica.Mapas
             {
                 NombreCliente = NodoFactura.NombreCliente,
                 Descuento = NodoFactura.Descuento,
-                IdInfo = NodoFactura.idInfoTRB,
+                InfoTributariaId = NodoFactura.idInfoTRB,
                 IdUsuario = IdUsuario,
                 IdCliente = IdCliente,
             };
