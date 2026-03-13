@@ -5,7 +5,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Sistema_de_Facturacion_Electronica.Data;
 using Sistema_de_Facturacion_Electronica.Interfaces;
-using Sistema_de_Facturacion_Electronica.Middlewares;
 using Sistema_de_Facturacion_Electronica.Modelos;
 using Sistema_de_Facturacion_Electronica.Respositorios;
 using Sistema_de_Facturacion_Electronica.Servicios;
@@ -104,7 +103,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
-//app.UseMiddleware<RegistroSesion>();
 app.UseAuthorization();
 app.MapControllers();
 

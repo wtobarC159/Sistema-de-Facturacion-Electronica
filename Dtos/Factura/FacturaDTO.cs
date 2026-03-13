@@ -8,8 +8,8 @@ namespace Sistema_de_Facturacion_Electronica.Dtos.Factura
     public class FacturaDTO
     {
         public int Id { get; set; }
-        public DateTime FechaEmision { get; set; } = DateTime.Now;
-        public DateTime FechaAutorizacion { get; set; } = DateTime.Now;
+        //public DateTime FechaEmision { get; set; } = DateTime.Now;
+        //public DateTime FechaAutorizacion { get; set; } = DateTime.Now;
         public string NumeroAutorizacion { get; set; } = string.Empty;
         public string NombreCliente { get; set; } = string.Empty;
         public double Subtotal { get; set; }
@@ -23,7 +23,7 @@ namespace Sistema_de_Facturacion_Electronica.Dtos.Factura
         public int idInfoTRB { get; set; }
         public string idUsuario { get; set; } = string.Empty;
 
-        public InfoTributariaDTO InfoDTO{ get; set; }
+        public InfoTributariaDTO? InfoDTO{ get; set; }
         public List<ItemDTO> Items { get; set; }
         public List<PagoDTO> Pagos { get; set; }
     }

@@ -3,6 +3,7 @@ using Sistema_de_Facturacion_Electronica.Data;
 using Sistema_de_Facturacion_Electronica.Helpers;
 using Sistema_de_Facturacion_Electronica.Interfaces;
 using Sistema_de_Facturacion_Electronica.Modelos;
+using Sistema_de_Facturacion_Electronica.Servicios;
 
 namespace Sistema_de_Facturacion_Electronica.Respositorios
 {
@@ -38,10 +39,10 @@ namespace Sistema_de_Facturacion_Electronica.Respositorios
             return DataFactura;
         }
 
-        public async Task<Item?> CrearItems(Item NodoItem)
+        public async Task<Item?> CrearItems(Item NodoItem,Factura DataFactura)
         {
             var DataProducto = await _contexto.Productos.Include(p => p.ImpAplicables).FirstOrDefaultAsync(m => m.Id == NodoItem.ProductoId);
-            var DataFactura = await _contexto.Facturas.Include(p => p.Items).FirstOrDefaultAsync(m => m.Id == NodoItem.FacturaId);
+            //var DataFactura = await _contexto.Facturas.Include(p => p.Items).FirstOrDefaultAsync(m => m.Id == NodoItem.FacturaId);
             if(DataProducto == null) return null;
 
             NodoItem.NombreProducto = DataProducto.Nombre;

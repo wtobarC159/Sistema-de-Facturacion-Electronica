@@ -21,6 +21,7 @@ namespace Sistema_de_Facturacion_Electronica.Servicios
             }
             NodoFactura.TotalFinal = NodoFactura.Subtotal + NodoFactura.TotalIPT - NodoFactura.Descuento;
             NodoFactura.EstadoValidacion = "Sin Validar";
+            NodoFactura.Observaciones = "Factura Procesada y lista para aplicar firma electronica";
             var NodoFactura2 = await _factura.ActualizarFacturas(NodoFactura.Id,NodoFactura);
             return NodoFactura2;
         }

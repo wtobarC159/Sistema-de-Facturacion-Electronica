@@ -76,7 +76,9 @@ namespace Sistema_de_Facturacion_Electronica.Controllers
         public async Task<IActionResult> GenerarItem([FromBody] CrearItemDTO NodoItem) 
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var ItemModelo = await _factura.CrearItems(NodoItem.ToItem());
+            var FacturaModelo = await _factura.ObtenerFacturaId(NodoItem.IdFactura);
+            var ItemModelo = await _factura.CrearItems(NodoItem.ToItem(),FacturaModelo!);
+            await _calculoFactura.Facturacion(FacturaModelo!);
             if (ItemModelo == null) return StatusCode(500,"Error Interno del Servidor");
             return Ok(ItemModelo.ToItemDTO());
         }
@@ -87,9 +89,8 @@ namespace Sistema_de_Facturacion_Electronica.Controllers
         {
            var ModeloFactura = await _factura.ObtenerFacturaId(IdFactura);
             if (ModeloFactura == null) return NotFound($"La Factura con el id {IdFactura} no se encuntra registrado");
-            var ModeloFacturaPLMR = await  _calculoFactura.Facturacion(ModeloFactura);
-            if (ModeloFacturaPLMR == null) return StatusCode(500,"Error Intenro del servidor");
-            return Ok(ModeloFacturaPLMR.ToFacturaDTO());
+            return Ok();
+
         }       
     }
 }

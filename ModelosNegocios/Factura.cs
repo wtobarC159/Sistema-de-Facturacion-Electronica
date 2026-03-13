@@ -8,7 +8,7 @@ namespace Sistema_de_Facturacion_Electronica.Modelos
     {
         public int Id { get; set; }
         [Column(TypeName ="Date")]
-        public DateTime FechaEmision { get; set; }
+        public DateTime FechaEmision { get; set; } = DateTime.Now;
         [Column(TypeName = "Date")]
         public DateTime FechaAutorizacion { get; set; }
         public string NumeroAutorizacion { get; set; } = string.Empty;

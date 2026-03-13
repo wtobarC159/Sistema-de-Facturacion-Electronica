@@ -1,9 +1,6 @@
-﻿using System;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Sistema_de_Facturacion_Electronica.Modelos;
 using Sistema_de_Facturacion_Electronica.ModelosAuditoria;
 
@@ -45,26 +42,6 @@ namespace Sistema_de_Facturacion_Electronica.Data
                   entity.HasKey(n => n.Id);
                   entity.Property(f => f.Id).UseIdentityColumn();
             });
-
-         /* modelBuilder.Entity<Factura>().InsertUsingStoredProcedure("sp_InsertFactura", sp =>
-            {
-                  sp.HasParameter(f=>f.FechaEmision);
-                  sp.HasParameter(f=>f.FechaAutorizacion);
-                  sp.HasParameter(f=>f.NumeroAutorizacion);
-                  sp.HasParameter(f=>f.NombreCliente);
-                  sp.HasParameter(f=>f.Subtotal);
-                  sp.HasParameter(f=>f.TotalIPT);
-                  sp.HasParameter(f=>f.Descuento);
-                  sp.HasParameter(f=>f.TotalFinal);
-                  sp.HasParameter(f=>f.EstadoValidacion);
-                  sp.HasParameter(f=>f.Observaciones);
-                  sp.HasParameter(f => f.XmlFactura);
-                  sp.HasParameter(f=>f.IdCliente);
-                  sp.HasParameter(f=>f.IdInfo);
-                  sp.HasParameter(f=>f.IdUsuario);
-
-                  sp.HasResultColumn(f => f.Id);
-             });*/
 
             List<IdentityRole> Roles = new List<IdentityRole>()
             {

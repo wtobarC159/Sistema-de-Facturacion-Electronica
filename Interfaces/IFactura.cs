@@ -11,7 +11,7 @@ namespace Sistema_de_Facturacion_Electronica.Interfaces
         Task<Factura?> AnularFactura(int IdFactura);
         Task<List<Factura>> ObtenerFacturas(QueryFactura NodoQuery);
         Task<Factura?> ObtenerFacturaId(int IdFactura);
-        Task <Item?>CrearItems(Item NodoItem);
+        Task <Item?>CrearItems(Item NodoItem,Factura NodoFactura);
         Task<Factura?> ActualizarFacturas(int IdFactura,Factura NodoFactura);
     }
 }
