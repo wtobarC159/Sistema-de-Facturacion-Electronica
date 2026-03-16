@@ -78,19 +78,19 @@ namespace Sistema_de_Facturacion_Electronica.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var FacturaModelo = await _factura.ObtenerFacturaId(NodoItem.IdFactura);
             var ItemModelo = await _factura.CrearItems(NodoItem.ToItem(),FacturaModelo!);
-            await _calculoFactura.Facturacion(FacturaModelo!);
+            //await _calculoFactura.Facturacion(FacturaModelo!);
             if (ItemModelo == null) return StatusCode(500,"Error Interno del Servidor");
             return Ok(ItemModelo.ToItemDTO());
         }
 
         [Authorize]
-        [HttpPost("validacion")]
-        public async Task<IActionResult> ValidarFactura([FromBody] int IdFactura) 
+        [HttpGet("{IdFactura:int}")]
+        public async Task<IActionResult> ValidarFactura([FromRoute] int IdFactura) 
         {
-           var ModeloFactura = await _factura.ObtenerFacturaId(IdFactura);
+            //var ModeloFactura = await _factura.ObtenerFacturaId(IdFactura);
+            var ModeloFactura = await _calculoFactura.Facturacion(IdFactura);
             if (ModeloFactura == null) return NotFound($"La Factura con el id {IdFactura} no se encuntra registrado");
-            return Ok();
-
+            return Ok(ModeloFactura.ToFacturaDTO());
         }       
     }
 }

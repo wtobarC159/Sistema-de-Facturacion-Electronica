@@ -11,9 +11,12 @@ namespace Sistema_de_Facturacion_Electronica.Servicios
         {
             _factura = factura;
         }
-        public async Task<Factura?> Facturacion(Factura NodoFactura)
+        public async Task<Factura?> Facturacion(int IdFactura)
         {
-            var ListItem = NodoFactura.Items.ToList();
+            var NodoFactura = await _factura.ObtenerFacturaId(IdFactura);
+            if (NodoFactura == null) return null;
+
+            var ListItem = NodoFactura.Items;
             foreach (var item in ListItem) 
             {
                 NodoFactura.Subtotal += item.Subtotal;
