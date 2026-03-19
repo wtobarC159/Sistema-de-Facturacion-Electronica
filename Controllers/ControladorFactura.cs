@@ -16,17 +16,17 @@ namespace Sistema_de_Facturacion_Electronica.Controllers
     public class ControladorFactura : ControllerBase
     {
         private readonly IFactura _factura;
-        //private readonly IExportacionXML _xml;
+        private readonly IExportacionXML _xml;
         //private readonly IValidacionXSD _xsd;
         private readonly UserManager<Usuario> _userManager;
         private readonly ICliente _cliente;
         private readonly ICalculoFactura _calculoFactura;
 
-        public ControladorFactura(IFactura factura,/*IExportacionXML xml,IValidacionXSD xsd,*/UserManager<Usuario> userManager, ICliente cliente, ICalculoFactura calculoFactura)
+        public ControladorFactura(IFactura factura, IExportacionXML xml,/*IValidacionXSD xsd,*/ UserManager<Usuario> userManager, ICliente cliente, ICalculoFactura calculoFactura)
         {
             _factura = factura;
-            /*_xml = xml;
-            _xsd = xsd;*/
+            _xml = xml;
+            //_xsd = xsd;
             _userManager = userManager;
             _cliente = cliente;
             _calculoFactura = calculoFactura;
@@ -87,7 +87,8 @@ namespace Sistema_de_Facturacion_Electronica.Controllers
         public async Task<IActionResult> ValidarFactura([FromRoute] int IdFactura)
         {
             var ModeloFactura = await _calculoFactura.Facturacion(IdFactura);
-            if (ModeloFactura == null) return NotFound($"La Factura con el id {IdFactura} no se encuntra registrado");
+            if (ModeloFactura == null) return NotFound($"La Factura con el id {IdFactura} no se encuntra registrada");
+            //var XmlGenerado = _xml.GenerarXML(ModeloFactura);
             return Ok(ModeloFactura.ToFacturaDTO());
         }
 
@@ -98,6 +99,16 @@ namespace Sistema_de_Facturacion_Electronica.Controllers
             var ModeloFactura = await _factura.AnularFactura(IdFactura);
             if (ModeloFactura == null) return NotFound($"La Factura con el id {IdFactura} no se encuentra registrado en el sistema");
             return NoContent();
+        }
+        [Authorize]
+        [HttpGet("exportarxml/{IdFactura:int}")]
+        public async Task<IActionResult> ExportarXML([FromRoute] int IdFactura)
+        {
+            var ModeloFactura = await _factura.ObtenerFacturaId(IdFactura);
+            if (ModeloFactura == null) return NotFound($"La Factura con el id {IdFactura} no se encuentra registrado en el sistema");
+            var XmlGenerado = _xml.ExportacionXML(ModeloFactura);
+            if (XmlGenerado == null) return StatusCode(500, "Error interno del servidor en la generacion del xml");
+            return Content(XmlGenerado, "application/xml");
         }
     }
 }

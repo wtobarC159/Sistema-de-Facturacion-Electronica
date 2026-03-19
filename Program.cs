@@ -91,6 +91,7 @@ builder.Services.AddScoped<IPago,RepositorioPago>();
 builder.Services.AddScoped<IGenerarToken,TokenService>();
 builder.Services.AddScoped<IFactura, RespositorioFactura>();
 builder.Services.AddScoped<ICalculoFactura,CalculosFacturas>();
+builder.Services.AddScoped<IExportacionXML, ExportacionXML>();
 
 var app = builder.Build();
 
